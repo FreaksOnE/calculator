@@ -4,29 +4,43 @@ const math = mathjs.create(mathjs.all);
 
 math.config({
   number: 'BigNumber',
-  precision: 64,
+  precision: 14,
 });
 
-const evaluate = ({ expression, variables = {}, toFixed, toDp }) => {
-  const bigNumberVariables = {};
-  const varKeys = Object.keys(variables);
+const evaluate = ({ expression }) => {
+  const result = math.evaluate(expression);
 
-  varKeys.forEach((key) => {
-    bigNumberVariables[key] = math.bignumber(variables[key]);
-  });
-
-  const result = math.evaluate(expression, bigNumberVariables);
-
-  if (toFixed) {
-    return result.toFixed(toFixed);
+  if (!result.entries) {
+    return result.toString();
   }
 
-  if (toDp) {
-    return result.toDecimalPlaces(toDp).toString();
+  if (result.entries) {
+    return result.entries[result.entries.length - 1].toString();
   }
 
-  return result.toString();
+  return '';
 };
+
+// const evaluate = ({ expression, variables = {}, toFixed, toDp }) => {
+//   const bigNumberVariables = {};
+//   const varKeys = Object.keys(variables);
+
+//   varKeys.forEach((key) => {
+//     bigNumberVariables[key] = math.bignumber(variables[key]);
+//   });
+
+//   const result = math.evaluate(expression, bigNumberVariables);
+
+//   if (toFixed) {
+//     return result.toFixed(toFixed);
+//   }
+
+//   if (toDp) {
+//     return result.toDecimalPlaces(toDp).toString();
+//   }
+
+//   return result.toString();
+// };
 
 const add = (num1, num2) => {
   return math.add(math.bignumber(num1), math.bignumber(num2)).toString();

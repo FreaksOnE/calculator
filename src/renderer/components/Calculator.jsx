@@ -18,11 +18,11 @@ const Calculator = () => {
       });
 
       if (res) {
-        const parsed = JSON.parse(res);
-        setResult(parsed[parsed.length - 1]);
+        setResult(res);
       }
     } catch (error) {
-      /*  */
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   };
 
